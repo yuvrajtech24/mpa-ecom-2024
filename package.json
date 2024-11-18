@@ -1,0 +1,30 @@
+{
+  "name": "mpa-ecom-2024",
+  "version": "1.0.0",
+  "description": "multi page ecommerce application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuvrajtech24/mpa-ecom-2024.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "ecom"
+  ],
+  "author": "YUVRAJ SINGH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuvrajtech24/mpa-ecom-2024/issues"
+  },
+  "homepage": "https://github.com/yuvrajtech24/mpa-ecom-2024#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1"
+  }
+}
