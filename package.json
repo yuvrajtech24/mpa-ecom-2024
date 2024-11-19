@@ -21,11 +21,14 @@
   },
   "homepage": "https://github.com/yuvrajtech24/mpa-ecom-2024#readme",
   "devDependencies": {
+    "@types/node": "^22.9.0",
     "nodemon": "^3.1.7"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "mysql2": "^3.11.4",
+    "uuid": "^11.0.3"
   }
 }
