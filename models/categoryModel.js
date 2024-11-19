@@ -1,5 +1,5 @@
 // Imports
-const { dbConnection } = require("../index");
+// const { dbConnection } = require("../index");
 const { v4:uuid4 } = require("uuid");
 
 class Category {
@@ -8,21 +8,29 @@ class Category {
         this.name = name;
     }
 
-    static create(name) {
-        this.id = uuid4();
-        this.name = name;
-        const query = `
+    static create(name, dbConnection, callback) {
+        let categoryId = uuid4();
+        let categoryName = name;
+        let query = `
         INSERT INTO categories 
         (categoryId, categoryName) 
-        VALUES (${this.id, this.name})
+        VALUES ("${categoryId}", "${categoryName}")
         `;
+        console.log("category id = ", categoryId);
+        console.log("category name = ", categoryName);
+        console.log("query = ", query);
+
         dbConnection.query(query, (err, result) => {
-            if(err) console.log("category create error = ",err);
+            if(err) {
+                console.log("category create error = ",err);
+                return callback(err);
+            }
             console.log("category create result = ", result);
+            return callback(null, result);
         })
     }
 
-    static patch(id, name) {
+    static patch(id, dbConnection, name) {
         this.id = id;
         this.name = name;
         const query = `
@@ -36,7 +44,7 @@ class Category {
         });
     }
 
-    static get() {
+    static get(dbConnection) {
         const query = `
         SELECT *
         FROM categories
@@ -47,7 +55,7 @@ class Category {
         });
     }
 
-    static delete(id) {
+    static delete(id, dbConnection) {
         this.id = id;
         const query = `
         DELETE FROM categories
@@ -59,3 +67,5 @@ class Category {
         })
     }
 }
+
+module.exports = { Category };

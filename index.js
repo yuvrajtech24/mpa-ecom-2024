@@ -1,7 +1,9 @@
 // Imports
 const express = require("express");
-require("dotenv").config();
 const mysql = require("mysql2");
+const bodyParser = require("body-parser");
+require("dotenv").config();
+const { Category } = require("./models/categoryModel");
 
 // Declarations
 const app = express();
@@ -16,34 +18,56 @@ const dbConnection = mysql.createConnection({
 // Server Config
 (() => {
     dbConnection.connect((err) => {
-        if(err) return console.log("database not connected", {
-            name: err.name,
-            code: err.message,
-        });
-
-        console.log("database server connected");
+        if(err) {
+            console.log("Database connection failed", {
+                name: err.name,
+                code: err.code,
+                stack: err.stack
+            });
+            process.exit(1);
+        } else{
+            console.log("Database connection success");
+        }
 
         try{
-            app.listen(process.env.APPPORT, process.env.APPHOST, () => {
+            app.listen(
+                process.env.APPPORT, 
+                process.env.APPHOST, 
+                () => {
                 console.log("app server connected");
             });
         } catch(err) {
-            console.log("error name = ", err.name);
-            console.log("error message = ", err.message);
+            console.log("App server startup failed", {
+                name: err.name,
+                message: err.message,
+            });
         }
     })
 })();
 
+// Middlewares
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+
 // Endpoints
-app.post("/category/add", (req, res, next) => {});
-app.get("/category/get", (req, res, next) => {});
-app.patch("/category/update", (req, res, next) => {});
-app.delete("/category/delete", (req, res, next) => {});
+app.post("/category/add", (req, res, next) => {
+    let { categoryName } = req.body;
+    Category.create(categoryName, dbConnection, (err, result) => {
+        if(err) return res.status(500).send(err);
+        res.status(200).send(result);
+    });
+});
+app.get("/category/get", (req, res, next) => {
+
+});
+app.patch("/category/update", (req, res, next) => {
+
+});
+app.delete("/category/delete", (req, res, next) => {
+
+});
 
 app.post("/product/add", (req, res, next) => {});
 app.get("/product/get", (req, res, next) => {});
 app.patch("/product/update", (req, res, next) => {});
 app.delete("/product/delete", (req, res, next) => {});
-
-// Exports
-module.exports = { dbConnection }; 
