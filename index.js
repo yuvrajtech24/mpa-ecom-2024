@@ -86,6 +86,11 @@ app.post("/product/add", (req, res, next) => {
         return res.status(200).send(result);
     })
 });
-app.get("/product/get", (req, res, next) => {});
+app.get("/product/get", (req, res, next) => {
+    Product.get(dbConnection, (err, result) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).send(result);
+    });
+});
 app.patch("/product/update", (req, res, next) => {});
 app.delete("/product/delete", (req, res, next) => {});
