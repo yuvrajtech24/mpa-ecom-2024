@@ -58,7 +58,10 @@ app.post("/category/add", (req, res, next) => {
     });
 });
 app.get("/category/get", (req, res, next) => {
-
+    Category.get(dbConnection, (err, result) => {
+        if(err) return res.status(500).send(err);
+        res.status(200).send(result);
+    })
 });
 app.patch("/category/update", (req, res, next) => {
 

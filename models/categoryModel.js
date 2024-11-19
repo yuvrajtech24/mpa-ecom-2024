@@ -44,14 +44,18 @@ class Category {
         });
     }
 
-    static get(dbConnection) {
+    static get(dbConnection, callback) {
         const query = `
         SELECT *
         FROM categories
         `
         dbConnection.query(query, (err, result) => {
-            if(err) console.log("category get error = ", err);
+            if(err) {
+                console.log("category get error = ", err);
+                return callback(err);
+            }
             console.log("category get result = ", result);
+            return callback(null, result);
         });
     }
 
