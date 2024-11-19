@@ -1,83 +1,4 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Category Page</title>
-        <style>
-            .card-cont {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 16px; /* Space between cards */
-                justify-content: center; /* Center the cards in the container */
-                margin: 24px;
-                padding: 16px;
-            }
-
-            .card {
-                border: 1px solid #ccc;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin: 16px;
-                padding: 16px;
-                max-width: 300px;
-                background-color: #fff;
-                transition: transform 0.2s ease-in-out;
-            }
-
-            .card-title {
-                font-weight: bold;
-                font-size: 1.5rem; /* Increase size */
-                margin-bottom: 12px;
-                color: #fff;
-                background-color: #007bff; /* Highlighting with a background color */
-                padding: 8px;
-                text-align: center; /* Center the text */
-                border-radius: 4px;
-            }
-
-
-            .card:hover {
-                transform: scale(1.02);
-            }
-
-            .card-body {
-                list-style-type: none;
-                padding: 0;
-                margin: 0;
-            }
-
-            .card-item {
-                padding: 8px 0;
-                border-bottom: 1px solid #f0f0f0;
-            }
-
-            .card-item:last-child {
-                border-bottom: none;
-            }
-
-            .card-item a {
-                text-decoration: none;
-                color: #007bff;
-                transition: color 0.2s ease-in-out;
-            }
-
-            .card-item a:hover {
-                color: #0056b3;
-            }
-        </style>
-    </head>
-    <body>
-        <header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/product/get">Product Page</a>
-                    </li>
-                    <li>
-                        <a href="/category/get">Categories Page</a>
-                    </li>
-                </ul>
-            </nav>
-        </header>
+<%- include("layouts/header") %>
         <main>
             <h1>Welcome to Category Page!!</h1>
             <div class="card-cont">
@@ -91,10 +12,10 @@
                                 <%= category.categoryId %>
                             </li>
                             <li class="card-item">
-                                <a href="#">Edit</a>
+                                <a href="/category/edit/<%=category.categoryId %>">Edit</a>
                             </li>
                             <li class="card-item">
-                                <a href="#">Delete</a>
+                                <a href="/category/delete">Delete</a>
                             </li>
                         </ul>
                     </div>

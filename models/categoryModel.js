@@ -30,17 +30,20 @@ class Category {
         })
     }
 
-    static patch(id, dbConnection, name) {
-        this.id = id;
-        this.name = name;
-        const query = `
-        UPDATE categories 
-        SET name = ${this.name}
-        WHERE categoryId = ${this.id}
-        `
+    static findOne(id, dbConnection, callback) {
+        let categoryId = id;
+        let query = `
+        SELECT * FROM categories
+        WHERE categoryId = "${categoryId}"
+        `;
         dbConnection.query(query, (err, result) => {
-            if(err) console.log("category patch error = ", err);
-            console.log("category patch result = ", result);
+            if(err) {
+                console.log("category findOne error = ", err);
+                return callback(err);
+            }
+
+            console.log("category findOne result = ", result);
+            return callback(null, result);
         });
     }
 
@@ -55,6 +58,25 @@ class Category {
                 return callback(err);
             }
             console.log("category get result = ", result);
+            return callback(null, result);
+        });
+    }
+
+    static update(id, name, dbConnection, callback) {
+        let categoryId = id;
+        let categoryName = name;
+        let query = `
+        UPDATE categories
+        SET categoryName = "${categoryName}"
+        WHERE categoryId = "${categoryId}"
+        `;
+        dbConnection.query(query, (err, result) => {
+            if(err) {
+                console.log("category update error = ", err);
+                return callback(err);
+            }
+
+            console.log("category update result = ", result);
             return callback(null, result);
         });
     }

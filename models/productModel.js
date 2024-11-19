@@ -38,11 +38,11 @@ class Product {
         dbConnection.query(query, (err, result) => {
             if(err) {
                 console.log("product update error = ", err);
-                callback(err);
+                return callback(err);
             }
 
             console.log("product update result = ", result);
-            callback(null, result);
+            return callback(null, result);
         });
     }
 
@@ -58,6 +58,23 @@ class Product {
             }
 
             console.log("product get result = ", result);
+            return callback(null, result);
+        })
+    }
+
+    static findOne(id, dbConnection, callback) {
+        let productId = id;
+        let query = `
+        SELECT * FROM products
+        WHERE ca = "${productId}"
+        `;
+        dbConnection.query(query, (err, result) => {
+            if(err) {
+                console.log("product findOne error = ", err);
+                return callback(err);
+            }
+
+            console.log("product findOne result = ", result);
             return callback(null, result);
         })
     }

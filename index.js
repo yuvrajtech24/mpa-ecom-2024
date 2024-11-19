@@ -67,20 +67,35 @@ app.post("/category/add", (req, res, next) => {
 app.get("/category/get", (req, res, next) => {
     Category.get(dbConnection, (err, categories) => {
         if(err) return res.status(500).send(err);
-        res.status(200).render("category", {categories});
+        return res.status(200).render("category", {categories});
     })
 });
-app.patch("/category/update", (req, res, next) => {
+app.get("/category/edit/:id", (req, res, next) => {
+    let categoryId = req.params.id;
+    Category.findOne(categoryId, dbConnection, (err, categoryArr) => {
+        let [category] = categoryArr;  
+        if(err) return res.status(500).send(err);
+        return res.status(200).render("editCategory", {category});
+    }) 
+});
+app.post("/category/update/:id", (req, res, next) => {
+    let categoryId = req.params.id;
+    let { categoryName } = req.body;
 
+    Category.update(categoryId, categoryName, dbConnection, (err, result) => {
+        if(err) return res.status(500).send(err);
+        return res.status(304).redirect("/category/get");
+    })
 });
 app.delete("/category/delete/:id", (req, res, next) => {
     let categoryId = req.params.id;
-
+    
     Category.delete(categoryId, dbConnection, (err, result) => {
         if(err) return res.status(500).send(err);
         res.status(200).send(result);
     })
 });
+
 
 app.post("/product/add", (req, res, next) => {
     let { productName } = req.body;
@@ -122,3 +137,4 @@ app.delete("/product/delete/:id", (req, res, next) => {
         return res.status(200).send(result);
     });
 });
+
