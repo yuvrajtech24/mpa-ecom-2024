@@ -2,6 +2,9 @@
         <main>
             <h1>Welcome to Category Page!!</h1>
             <div class="card-cont">
+                <% if(categories.length === 0) { %>
+                    <h1>No Categories Found!!!</h1>
+                <% } %>
                 <% for(category of categories) { %>
                     <div class="card">
                         <ul class="card-body">
@@ -15,7 +18,7 @@
                                 <a href="/category/edit/<%=category.categoryId %>">Edit</a>
                             </li>
                             <li class="card-item">
-                                <a href="/category/delete">Delete</a>
+                                <a href="/category/delete/<%= category.categoryId%>">Delete</a>
                             </li>
                         </ul>
                     </div>

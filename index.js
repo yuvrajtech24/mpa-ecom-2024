@@ -87,12 +87,12 @@ app.post("/category/update/:id", (req, res, next) => {
         return res.status(304).redirect("/category/get");
     })
 });
-app.delete("/category/delete/:id", (req, res, next) => {
+app.get("/category/delete/:id", (req, res, next) => {
     let categoryId = req.params.id;
     
     Category.delete(categoryId, dbConnection, (err, result) => {
         if(err) return res.status(500).send(err);
-        res.status(200).send(result);
+        res.status(304).redirect("/category/get");
     })
 });
 
