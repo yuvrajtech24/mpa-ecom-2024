@@ -59,15 +59,21 @@ class Category {
         });
     }
 
-    static delete(id, dbConnection) {
-        this.id = id;
+    static delete(id, dbConnection, callback) {
+        let categoryId = id;
         const query = `
         DELETE FROM categories
-        WHERE categoryId = ${this.id}
+        WHERE categoryId = "${categoryId}"
         `
         dbConnection.query(query, (err, result) => {
-            if(err) console.log("category delete error = ", err);
+            if(err) {
+                console.log("category delete error", err);
+                return callback(err);
+            }
+
             console.log("category delete result = ", result);
+            callback(null, result);
+            
         })
     }
 }

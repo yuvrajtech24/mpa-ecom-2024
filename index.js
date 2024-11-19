@@ -66,8 +66,13 @@ app.get("/category/get", (req, res, next) => {
 app.patch("/category/update", (req, res, next) => {
 
 });
-app.delete("/category/delete", (req, res, next) => {
+app.delete("/category/delete/:id", (req, res, next) => {
+    let categoryId = req.params.id;
 
+    Category.delete(categoryId, dbConnection, (err, result) => {
+        if(err) return res.status(500).send(err);
+        res.status(200).send(result);
+    })
 });
 
 app.post("/product/add", (req, res, next) => {});
