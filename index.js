@@ -57,11 +57,14 @@ app.use(bodyParser.urlencoded());
 app.get("/", (req, res, next) => {
     res.redirect("/category/get");
 })
+app.get("/category/add", (req, res, next) => {
+    return res.status(200).render("addCategory");
+})
 app.post("/category/add", (req, res, next) => {
     let { categoryName } = req.body;
     Category.create(categoryName, dbConnection, (err, result) => {
         if(err) return res.status(500).send(err);
-        res.status(200).send(result);
+        res.status(304).redirect("/category/get");
     });
 });
 app.get("/category/get", (req, res, next) => {
