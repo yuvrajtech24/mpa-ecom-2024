@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const { Category } = require("./models/categoryModel");
 const { Product } = require("./models/productModel");
+const path = require("path");
 
 // Declarations
 const app = express();
@@ -15,6 +16,8 @@ const dbConnection = mysql.createConnection({
     user: process.env.DBUSERNAME,
     password: process.env.DBPASSWORD
 });
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // Server Config
 (() => {
@@ -51,6 +54,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 // Endpoints
+app.get("/", (req, res, next) => {
+    res.redirect("/category/get");
+})
 app.post("/category/add", (req, res, next) => {
     let { categoryName } = req.body;
     Category.create(categoryName, dbConnection, (err, result) => {
@@ -59,9 +65,9 @@ app.post("/category/add", (req, res, next) => {
     });
 });
 app.get("/category/get", (req, res, next) => {
-    Category.get(dbConnection, (err, result) => {
+    Category.get(dbConnection, (err, categories) => {
         if(err) return res.status(500).send(err);
-        res.status(200).send(result);
+        res.status(200).render("category", {categories});
     })
 });
 app.patch("/category/update", (req, res, next) => {
@@ -87,9 +93,9 @@ app.post("/product/add", (req, res, next) => {
     })
 });
 app.get("/product/get", (req, res, next) => {
-    Product.get(dbConnection, (err, result) => {
+    Product.get(dbConnection, (err, products) => {
         if(err) return res.status(500).send(err);
-        return res.status(200).send(result);
+        return res.status(200).render("product", {products})
     });
 });
 app.post("/product/update/:id", (req, res, next) => {
