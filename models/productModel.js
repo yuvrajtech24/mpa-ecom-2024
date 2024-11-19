@@ -34,16 +34,16 @@ class Product {
         UPDATE products
         SET productName = "${productName}"
         WHERE productId = "${productId}"
-        `
+        `;
         dbConnection.query(query, (err, result) => {
             if(err) {
                 console.log("product update error = ", err);
-                return callback(err);
-            } 
+                callback(err);
+            }
 
             console.log("product update result = ", result);
-            return callback(null, result);
-        })
+            callback(null, result);
+        });
     }
 
     static get(dbConnection, callback) {

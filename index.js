@@ -92,5 +92,20 @@ app.get("/product/get", (req, res, next) => {
         return res.status(200).send(result);
     });
 });
-app.patch("/product/update", (req, res, next) => {});
+app.post("/product/update/:id", (req, res, next) => {
+    let { productName } = req.body;
+    let productId = req.params.id;
+
+    Product.update(
+        productId, 
+        productName, 
+        dbConnection, 
+        (err, result) => {
+        if(err) { 
+            return res.status(500).send(err);
+        } else {
+            return res.status(200).send(result);
+        }
+    });
+});
 app.delete("/product/delete", (req, res, next) => {});
