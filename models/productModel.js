@@ -66,7 +66,7 @@ class Product {
         let productId = id;
         let query = `
         DELETE FROM products
-        WHERE productId = productId
+        WHERE productId = "${productId}"
         `;
         dbConnection.query(query, (err, result) => {
             if(err) {
