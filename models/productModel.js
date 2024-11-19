@@ -1,5 +1,5 @@
 // Imports
-const { V4:uuid4 } = require("uuid");
+const { v4:uuid4 } = require("uuid");
 
 // Model
 class Product {
@@ -79,3 +79,5 @@ class Product {
         })
     }
 }
+
+module.exports = { Product };

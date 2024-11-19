@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const { Category } = require("./models/categoryModel");
+const { Product } = require("./models/productModel");
 
 // Declarations
 const app = express();
@@ -75,7 +76,16 @@ app.delete("/category/delete/:id", (req, res, next) => {
     })
 });
 
-app.post("/product/add", (req, res, next) => {});
+app.post("/product/add", (req, res, next) => {
+    let { productName } = req.body;
+    Product.create(productName, dbConnection, (err, result) => {
+        if(err) {
+            return res.status(500).send(err);
+        }
+
+        return res.status(200).send(result);
+    })
+});
 app.get("/product/get", (req, res, next) => {});
 app.patch("/product/update", (req, res, next) => {});
 app.delete("/product/delete", (req, res, next) => {});
