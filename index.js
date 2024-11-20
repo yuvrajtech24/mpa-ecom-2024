@@ -138,12 +138,12 @@ app.post("/product/update/:id", (req, res, next) => {
         }
     });
 });
-app.delete("/product/delete/:id", (req, res, next) => {
+app.get("/product/delete/:id", (req, res, next) => {
     let productId = req.params.id;
 
     Product.delete(productId, dbConnection, (err, result) => {
         if(err) return res.status(500).send(err);
-        return res.status(200).send(result);
+        return res.status(304).redirect("/product/get");
     });
 });
 
