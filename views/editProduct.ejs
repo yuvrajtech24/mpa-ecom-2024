@@ -1,0 +1,38 @@
+<%- include("layouts/header") %>  
+
+<main>
+    <h1>Welcome to Edit Product Page!!!</h1>
+    <form 
+    action="/product/update/<%=product.productId%>" method="POST"
+    >
+        <div>
+            <label for="productName">Product Name:</label>
+            <input 
+            type="text" 
+            id="productName" 
+            name="productName"
+            value="<%= product.productName %>" 
+            required>
+        </div>
+        <br>
+        <div>
+            <label for="categoryName">Category Name:</label>
+            <select name="categoryId" required>
+                <% for (category of categories) { %>
+                <option
+                <% if (category.categoryId === product.categoryId) { %> 
+                    selected 
+                <% } %>
+                value="<%= category.categoryId %>"
+                >
+                    <%= category.categoryName %>
+                </option>
+                <% } %>
+            </select>
+        </div>
+        
+        <button type="submit">Update</button>
+    </form>
+</main>
+</body>
+</html>

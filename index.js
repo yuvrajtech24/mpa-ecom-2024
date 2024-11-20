@@ -122,19 +122,39 @@ app.get("/product/get", (req, res, next) => {
         return res.status(200).render("product", {products})
     });
 });
-app.post("/product/update/:id", (req, res, next) => {
-    let { productName } = req.body;
+app.get("/product/edit/:id", (req, res, next) => {
     let productId = req.params.id;
+
+    Product.findOne(productId, dbConnection, (err, productArr) => {
+        if(err) {
+            return res.status(500).send(err);
+        } else {
+            let [ product ] = productArr;
+            Category.get(dbConnection, (err, categories) => {
+                if(err) return res.status(500).send(err);
+                return res.status(200).render("editProduct", {product, categories});
+            });
+        }
+        
+    })
+})
+app.post("/product/update/:id", (req, res, next) => {
+    let { productName, categoryId } = req.body;
+    let productId = req.params.id;
+
+    console.log(req.body);
+    console.log(productId);
 
     Product.update(
         productId, 
-        productName, 
+        productName,
+        categoryId, 
         dbConnection, 
         (err, result) => {
         if(err) { 
             return res.status(500).send(err);
         } else {
-            return res.status(200).send(result);
+            return res.status(304).redirect("/product/get");
         }
     });
 });

@@ -27,12 +27,12 @@ class Product {
         });
     }
 
-    static update(id, name, dbConnection, callback) {
+    static update(id, name, categoryId, dbConnection, callback) {
         let productId = id;
         let productName = name;
         let query = `
         UPDATE products
-        SET productName = "${productName}"
+        SET productName = "${productName}", categoryId = "${categoryId}"
         WHERE productId = "${productId}"
         `;
         dbConnection.query(query, (err, result) => {
@@ -68,9 +68,12 @@ class Product {
     static findOne(id, dbConnection, callback) {
         let productId = id;
         let query = `
-        SELECT * FROM products
-        WHERE ca = "${productId}"
-        `;
+        SELECT products.productId, products.productName, products.categoryId, categories.categoryName
+        FROM products
+        INNER JOIN categories
+        ON products.categoryId = categories.categoryId
+        WHERE products.productId = "${productId}"
+    `;
         dbConnection.query(query, (err, result) => {
             if(err) {
                 console.log("product findOne error = ", err);
