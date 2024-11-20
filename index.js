@@ -99,15 +99,21 @@ app.get("/category/delete/:id", (req, res, next) => {
     })
 });
 
-
+app.get("/product/add", (req, res, next) => {
+    Category.get(dbConnection, (err, categories) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).render("addProduct", {categories});
+    })
+})
 app.post("/product/add", (req, res, next) => {
-    let { productName } = req.body;
-    Product.create(productName, dbConnection, (err, result) => {
+    let { productName, categoryId } = req.body;
+    console.log("product add form data = ", req.body);
+    Product.create(productName, categoryId, dbConnection, (err, result) => {
         if(err) {
             return res.status(500).send(err);
         }
 
-        return res.status(200).send(result);
+        return res.status(304).redirect("/product/get");
     })
 });
 app.get("/product/get", (req, res, next) => {

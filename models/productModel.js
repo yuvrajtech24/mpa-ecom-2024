@@ -8,13 +8,13 @@ class Product {
         this.productName = productName;
     }
 
-    static create(name, dbConnection, callback) {
+    static create(name, categoryId, dbConnection, callback) {
         let productId = uuid4();
         let productName = name;
         let query = `
         INSERT INTO products
-        (productId, productName)
-        VALUES ("${productId}", "${productName}")
+        (productId, productName, categoryId)
+        VALUES ("${productId}", "${productName}", "${categoryId}")
         `;
         dbConnection.query(query, (err, result) => {
             if(err) {
