@@ -2,7 +2,48 @@
 <%- include("layouts/header") %>        
         <main>
             <h1>Welcome to Product Page!!</h1>
+            <form
+            class="form-container"
+            action="/product/get" 
+            method="GET"
+            style="
+            display: flex; 
+            flex-direction: row;
+            gap: 20px;
+            ">
+                <div class="form-group" >
+                    <label 
+                    for="page" 
+                    class="form-label">Page Number:</label>
+                    <input 
+                    class="form-input"
+                    type="text" 
+                    id="page" 
+                    name="page" 
+                    required
+                    min="1"
+                    value="<%= page %>">
+                </div>
+                <br>
+                <div class="form-group" >
+                    <label 
+                    for="pageSize" 
+                    class="form-label">Page Size:</label>
+                    <input 
+                    class="form-input"
+                    type="text" 
+                    id="pageSize" 
+                    name="pageSize" 
+                    min="5"
+                    required
+                    value="<%= pageSize %>">
+                </div>
+                <button class="form-button" type="submit">Search</button>
+            </form>
             <div class="card-cont">
+                <% if(!products.length) {  %>
+                    <h1>No Products</h1>
+                <% } %>
                 <% for(product of products) { %>
                     <div class="card">
                         <ul class="card-body">
@@ -22,10 +63,12 @@
                                 <%= product.categoryId %>
                             </li>
                             <li class="card-item">
-                                <a href="/product/edit/<%= product.productId %>">Edit</a>
+                                <a 
+                                href="/product/edit/<%= product.productId %>">Edit</a>
                             </li>
                             <li class="card-item">
-                                <a href="/product/delete/<%=product.productId %>">Delete</a>
+                                <a 
+                                href="/product/delete/<%=product.productId %>">Delete</a>
                             </li>
                         </ul>
                     </div>

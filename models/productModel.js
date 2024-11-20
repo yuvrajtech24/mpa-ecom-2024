@@ -46,12 +46,14 @@ class Product {
         });
     }
 
-    static get(dbConnection, callback) {
+    static get(offset, pageSize, dbConnection, callback) {
         let query = `
         SELECT products.productId, products.productName, products.categoryId, categories.categoryName  
         FROM products
         INNER JOIN categories
         ON products.categoryId = categories.categoryId
+        LIMIT ${pageSize}
+        OFFSET ${offset}
         `;
 
         dbConnection.query(query, (err, result) => {

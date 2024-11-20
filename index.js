@@ -117,9 +117,15 @@ app.post("/product/add", (req, res, next) => {
     })
 });
 app.get("/product/get", (req, res, next) => {
-    Product.get(dbConnection, (err, products) => {
+    let page = parseInt(req.query.page) || 1;
+    let pageSize = parseInt(req.query.pageSize) || 5;
+    let offset = (page - 1) * pageSize;
+    console.log("page NUmber = ", page);
+    console.log("page size = ", pageSize);
+    console.log("offset = ", offset);
+    Product.get(offset, pageSize, dbConnection, (err, products) => {
         if(err) return res.status(500).send(err);
-        return res.status(200).render("product", {products})
+        return res.status(200).render("product", {products, page, pageSize})
     });
 });
 app.get("/product/edit/:id", (req, res, next) => {
