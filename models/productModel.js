@@ -48,7 +48,10 @@ class Product {
 
     static get(dbConnection, callback) {
         let query = `
-        SELECT * FROM products
+        SELECT products.productId, products.productName, products.categoryId, categories.categoryName  
+        FROM products
+        INNER JOIN categories
+        ON products.categoryId = categories.categoryId
         `;
 
         dbConnection.query(query, (err, result) => {
