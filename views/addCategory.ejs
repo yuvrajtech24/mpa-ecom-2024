@@ -4,17 +4,21 @@
     <form 
     action="/category/add" 
     method="POST"
+    class="form-container"
     >
-        <label for="categoryName">Category Name:</label>
-        <input 
-        type="text" 
-        id="categoryName" 
-        name="categoryName" 
-        required>
-
-        <!-- Add other product fields as necessary -->
+        <div class="form-group">
+            <label 
+            class="form-label" 
+            for="categoryName">Category Name:</label>
+            <input 
+            class="form-input"
+            type="text" 
+            id="categoryName" 
+            name="categoryName" 
+            required>
+        </div>
         
-        <button type="submit">Add</button>
+        <button type="submit" class="form-button">Add</button>
     </form>
 </main>
 </body>

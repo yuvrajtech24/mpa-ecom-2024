@@ -4,10 +4,14 @@
     <h1>Welcome to Edit Product Page!!!</h1>
     <form 
     action="/product/update/<%=product.productId%>" method="POST"
+    class="form-container"
     >
-        <div>
-            <label for="productName">Product Name:</label>
-            <input 
+        <div class="form-group" >
+            <label 
+            class="form-label" 
+            for="productName">Product Name:</label>
+            <input
+            class="form-input" 
             type="text" 
             id="productName" 
             name="productName"
@@ -15,9 +19,14 @@
             required>
         </div>
         <br>
-        <div>
-            <label for="categoryName">Category Name:</label>
-            <select name="categoryId" required>
+        <div class="form-group">
+            <label 
+            class="form-label" 
+            for="categoryName">Category Name:</label>
+            <select 
+            class="form-select" 
+            name="categoryId" 
+            required>
                 <% for (category of categories) { %>
                 <option
                 <% if (category.categoryId === product.categoryId) { %> 

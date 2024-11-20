@@ -4,20 +4,21 @@
     <h1>Welcome to Edit Category Page!!!</h1>
     <form 
     action="/category/update/<%=category.categoryId%>" method="POST"
+    class="form-container"
     >
-    <h1>category Id = <%= category.categoryId %></h1>
-    <h1>category Name = <%= category.categoryName %></h1>
-        <label for="categoryName">Category Name:</label>
+    <div class="form-group">
+        <label 
+        class="form-label" 
+        for="categoryName">Category Name:</label>
         <input 
+        class="form-input"
         type="text" 
         id="categoryName" 
         name="categoryName" 
         value="<%= category.categoryName %>" 
         required>
-
-        <!-- Add other product fields as necessary -->
-        
-        <button type="submit">Update</button>
+    </div>
+        <button class="form-button" type="submit">Update</button>
     </form>
 </main>
 </body>
