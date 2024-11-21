@@ -42,7 +42,15 @@
             </form>
             <div class="card-cont">
                 <% if(!products.length) {  %>
-                    <h1>No Products</h1>
+                    <div style="display:flex; flex-direction: column;">
+                        <h1>Invalid Page Number!!!</h1>
+                        <br>
+                        <h4>No Product available on this Page!!!</h4>
+                        <br>
+                        <h4>Go Back,
+                            <a href="/product/get">Product Page</a>
+                        </h4>
+                    </div>
                 <% } %>
                 <% for(product of products) { %>
                     <div class="card">
