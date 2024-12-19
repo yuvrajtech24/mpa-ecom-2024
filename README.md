@@ -21,7 +21,7 @@ So if the page size is 10 and the user is on page 9 then pull only records from 
 - ***Step 4*** - Install VSCODE for development
 - ***Step 5*** - Clone Repository to local machine
 - ***Step 6*** - Open Repository folder in VSCODE
-- ***Step 7*** - For installing Node modules folder or dependencies mentioned  in ***Package.josn*** open terminal in VSCODE and run
+- ***Step 7*** - For installing Node modules folder or dependencies mentioned  in ***Package.json*** open terminal in VSCODE and run
   ```
   npm install
   ```
