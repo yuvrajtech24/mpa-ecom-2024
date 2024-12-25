@@ -3,9 +3,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const path = require("path");
-const categoryRoute = require("./routes/categoryRoute");
-const productRoute = require("./routes/productRoute");
-const dbConnection = require("./config/dbConfig");
+const categoryRoute = require("./routes/category.route");
+const productRoute = require("./routes/product.route");
+const dbConnection = require("./config/db.config");
 
 // Declarations
 const app = express();

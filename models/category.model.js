@@ -1,7 +1,7 @@
 // Imports
-// const { dbConnection } = require("../index");
 const { v4:uuid4 } = require("uuid");
 
+// Models
 class Category {
     constructor(id, name) {
         this.id = id;
@@ -100,4 +100,5 @@ class Category {
     }
 }
 
+// Exports
 module.exports = { Category };

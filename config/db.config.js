@@ -10,4 +10,5 @@ const dbConnection = mysql.createConnection({
     password: process.env.DBPASSWORD
 });
 
+// Exports
 module.exports = dbConnection;

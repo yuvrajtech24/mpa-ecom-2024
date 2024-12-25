@@ -1,7 +1,7 @@
 // Imports
 const { v4:uuid4 } = require("uuid");
 
-// Model
+// Models
 class Product {
     constructor(productId, productName) {
         this.productId = productId;
@@ -105,4 +105,5 @@ class Product {
     }
 }
 
+//Exports
 module.exports = { Product };

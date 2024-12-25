@@ -1,7 +1,7 @@
 // Imports
-const dbConnection = require("../config/dbConfig");
-const { Product } = require("../models/productModel");
-const { Category } = require("../models/categoryModel");
+const dbConnection = require("../config/db.config");
+const { Product } = require("../models/product.model");
+const { Category } = require("../models/category.model");
 
 // Controllers
 function addProductPage(req, res, next) {

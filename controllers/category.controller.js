@@ -1,6 +1,6 @@
 // Imports
-const dbConnection = require("../config/dbConfig");
-const { Category } = require("../models/categoryModel");
+const dbConnection = require("../config/db.config");
+const { Category } = require("../models/category.model");
 
 // Controllers
 function addCategoryPage(req, res, next) {

@@ -6,7 +6,7 @@ const { addProductPage,
         editProductPage,
         updateProduct,
         deleteProduct 
-    } = require("../controllers/productController");
+    } = require("../controllers/product.controller");
 
 // Declarations
 const router = express.Router();
