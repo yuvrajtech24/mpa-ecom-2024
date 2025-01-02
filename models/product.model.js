@@ -1,5 +1,5 @@
 // Imports
-const { v4:uuid4 } = require("uuid");
+const { createDbConnection } = require("../config/db.config");
 
 // Models
 class Product {
@@ -7,46 +7,40 @@ class Product {
         this.productId = productId;
         this.productName = productName;
     }
-
-    static create(name, categoryId, dbConnection, callback) {
-        let productId = uuid4();
-        let productName = name;
+    static async create(productId, productName, categoryId) {
+        let connection = null;
         let query = `
         INSERT INTO products
         (productId, productName, categoryId)
-        VALUES ("${productId}", "${productName}", "${categoryId}")
+        VALUES (?, ?, ?)
         `;
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("product create error = ", err);
-                callback(err);
-            }
-
-            console.log("product create result = ", result);
-            callback(null, result);
-        });
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query,[productId, productName, categoryId]);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static update(id, name, categoryId, dbConnection, callback) {
-        let productId = id;
-        let productName = name;
+    static async getOne(productId) {
+        let connection = null;
         let query = `
-        UPDATE products
-        SET productName = "${productName}", categoryId = "${categoryId}"
-        WHERE productId = "${productId}"
+        SELECT products.productId, products.productName, products.categoryId, categories.categoryName
+        FROM products
+        INNER JOIN categories
+        ON products.categoryId = categories.categoryId
+        WHERE products.productId = "${productId}"
         `;
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("product update error = ", err);
-                return callback(err);
-            }
-
-            console.log("product update result = ", result);
-            return callback(null, result);
-        });
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static get(offset, pageSize, dbConnection, callback) {
+    static async getAll(offset, pageSize) {
+        let connection = null;
         let query = `
         SELECT products.productId, products.productName, products.categoryId, categories.categoryName  
         FROM products
@@ -55,53 +49,42 @@ class Product {
         LIMIT ${pageSize}
         OFFSET ${offset}
         `;
-
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("product get error = ", err);
-                return callback(err);
-            }
-
-            console.log("product get result = ", result);
-            return callback(null, result);
-        })
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static findOne(id, dbConnection, callback) {
-        let productId = id;
+    static async update(productId, productName, categoryId) {
+        let connection = null;
         let query = `
-        SELECT products.productId, products.productName, products.categoryId, categories.categoryName
-        FROM products
-        INNER JOIN categories
-        ON products.categoryId = categories.categoryId
-        WHERE products.productId = "${productId}"
-    `;
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("product findOne error = ", err);
-                return callback(err);
-            }
-
-            console.log("product findOne result = ", result);
-            return callback(null, result);
-        })
+        UPDATE products
+        SET productName = ?, categoryId = ?
+        WHERE productId = "${productId}"
+        `;
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query, [productName, categoryId]);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static delete(id, dbConnection, callback) {
-        let productId = id;
+    static async delete(productId) {
+        let connection = null;
         let query = `
         DELETE FROM products
         WHERE productId = "${productId}"
         `;
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("product delete error = ", err);
-                callback(err);
-            }
-
-            console.log("product delete result = ", result);
-            callback(null, result);
-        })
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
 }
 

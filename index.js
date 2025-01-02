@@ -5,7 +5,6 @@ require("dotenv").config();
 const path = require("path");
 const categoryRoute = require("./routes/category.route");
 const productRoute = require("./routes/product.route");
-const dbConnection = require("./config/db.config");
 
 // Declarations
 const app = express();
@@ -14,17 +13,17 @@ app.set("views", path.join(__dirname, "views"));
 
 // Server Config
 (() => {
-    dbConnection.connect((err) => {
-        if(err) {
-            console.log("Database connection failed", {
-                name: err.name,
-                code: err.code,
-                stack: err.stack
-            });
-            process.exit(1);
-        } else{
-            console.log("Database connection success");
-        }
+    // dbConnection.connect((err) => {
+    //     if(err) {
+    //         console.log("Database connection failed", {
+    //             name: err.name,
+    //             code: err.code,
+    //             stack: err.stack
+    //         });
+    //         process.exit(1);
+    //     } else{
+    //         console.log("Database connection success");
+    //     }
 
         try{
             app.listen(
@@ -39,8 +38,7 @@ app.set("views", path.join(__dirname, "views"));
                 message: err.message,
             });
         }
-    })
-})();
+    })();
 
 // Middlewares
 app.use(bodyParser.json());

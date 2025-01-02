@@ -1,5 +1,5 @@
 // Imports
-const { v4:uuid4 } = require("uuid");
+const { createDbConnection } = require("../config/db.config");
 
 // Models
 class Category {
@@ -7,96 +7,78 @@ class Category {
         this.id = id;
         this.name = name;
     }
-
-    static create(name, dbConnection, callback) {
-        let categoryId = uuid4();
-        let categoryName = name;
+    static async create(categoryId, categoryName) {
+        let connection = null;
         let query = `
         INSERT INTO categories 
         (categoryId, categoryName) 
-        VALUES ("${categoryId}", "${categoryName}")
+        VALUES (?,?)
         `;
-        console.log("category id = ", categoryId);
-        console.log("category name = ", categoryName);
-        console.log("query = ", query);
-
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("category create error = ",err);
-                return callback(err);
-            }
-            console.log("category create result = ", result);
-            return callback(null, result);
-        })
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query, [categoryId, categoryName]);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static findOne(id, dbConnection, callback) {
-        let categoryId = id;
+    static async getOne(categoryId) {
+        let connection = null;
         let query = `
         SELECT * FROM categories
         WHERE categoryId = "${categoryId}"
         `;
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("category findOne error = ", err);
-                return callback(err);
-            }
-
-            console.log("category findOne result = ", result);
-            return callback(null, result);
-        });
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static get(dbConnection, callback) {
+    static async getAll() {
+        // console.log("database connection object = ", dbConnection)
+        let connection = null;
         const query = `
         SELECT *
         FROM categories
-        `
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("category get error = ", err);
-                return callback(err);
-            }
-            console.log("category get result = ", result);
-            return callback(null, result);
-        });
+        `;
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static update(id, name, dbConnection, callback) {
-        let categoryId = id;
-        let categoryName = name;
+    static async update(categoryId, categoryName) {
+        let connection = null;
         let query = `
         UPDATE categories
-        SET categoryName = "${categoryName}"
+        SET categoryName = ?
         WHERE categoryId = "${categoryId}"
         `;
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("category update error = ", err);
-                return callback(err);
-            }
-
-            console.log("category update result = ", result);
-            return callback(null, result);
-        });
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query, [categoryName]);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
-
-    static delete(id, dbConnection, callback) {
-        let categoryId = id;
+    static async delete(categoryId) {
+        let connection = null;
         const query = `
         DELETE FROM categories
         WHERE categoryId = "${categoryId}"
-        `
-        dbConnection.query(query, (err, result) => {
-            if(err) {
-                console.log("category delete error", err);
-                return callback(err);
-            }
-
-            console.log("category delete result = ", result);
-            callback(null, result);
-            
-        })
+        `;
+        try {
+            connection = await createDbConnection();
+            let [rows, fields] = await connection.execute(query);
+            return rows;
+        } catch(err) {
+            throw err;
+        }
     }
 }
 

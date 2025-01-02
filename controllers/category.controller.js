@@ -1,48 +1,54 @@
 // Imports
-const dbConnection = require("../config/db.config");
-const { Category } = require("../models/category.model");
+const { CategoryService } = require("../services/category.service");
 
 // Controllers
 function addCategoryPage(req, res, next) {
     return res.status(200).render("addCategory");
 }
-function addCategory(req, res, next) {
+async function addCategory(req, res, next) {
     let { categoryName } = req.body;
-    Category.create(categoryName, dbConnection, (err, result) => {
-        if(err) return res.status(500).send(err);
-        res.status(304).redirect("/category/get");
-    });
-}
-function getCategoryPage(req, res, next) {
-    Category.get(dbConnection, (err, categories) => {
-        if(err) return res.status(500).send(err);
-        return res.status(200).render("category", {categories});
-    })
-}
-function editCategoryPage(req, res, next) {
-    let categoryId = req.params.id;
-    Category.findOne(categoryId, dbConnection, (err, categoryArr) => {
-        let [category] = categoryArr;  
-        if(err) return res.status(500).send(err);
-        return res.status(200).render("editCategory", {category});
-    }) 
-}
-function updateCategory(req, res, next) {
-    let categoryId = req.params.id;
-    let { categoryName } = req.body;
-
-    Category.update(categoryId, categoryName, dbConnection, (err, result) => {
-        if(err) return res.status(500).send(err);
+    try {
+        let result = await CategoryService.createCategory(categoryName);
         return res.status(304).redirect("/category/get");
-    })
+    } catch (err) {
+        return res.status(500).send({name: err.name, message: err.message});
+    }
 }
-function deleteCategory(req, res, next) {
+async function getCategoryPage(req, res, next) {
+    try {
+        let categories = await CategoryService.getAllCategory();
+        return res.status(200).render("category", {categories});
+    } catch(err) {
+        return res.status(500).send({name: err.name, message: err.message});
+    }
+}
+async function editCategoryPage(req, res, next) {
     let categoryId = req.params.id;
-    
-    Category.delete(categoryId, dbConnection, (err, result) => {
-        if(err) return res.status(500).send(err);
-        res.status(304).redirect("/category/get");
-    })
+    try {
+        let [category] = await CategoryService.getOneCategory(categoryId);
+        return res.status(200).render("editCategory", {category});
+    } catch(err) {
+        return res.status(500).send({name: err.name, message: err.message});
+    }
+}
+async function updateCategory(req, res, next) {
+    let categoryId = req.params.id;
+    let { categoryName } = req.body;
+    try {
+        let result = await CategoryService.updateCategory(categoryId, categoryName);
+        return res.status(304).redirect("/category/get");
+    } catch(err) {
+        return res.status(500).send({name: err.name, message: err.message});
+    }
+}
+async function deleteCategory(req, res, next) {
+    let categoryId = req.params.id;
+    try {
+        let result = await CategoryService.deleteCategory(categoryId);
+        return res.status(304).redirect("/category/get");
+    } catch(err) {
+        return res.status(500).send({name: err.name, message: err.message});
+    }
 }
 
 // Exports
