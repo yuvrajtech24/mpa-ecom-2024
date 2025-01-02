@@ -37,7 +37,6 @@ class Category {
         }
     }
     static async getAll() {
-        // console.log("database connection object = ", dbConnection)
         let connection = null;
         const query = `
         SELECT *
