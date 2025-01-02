@@ -91,7 +91,8 @@ CREATE TABLE `products` (
 CREATE TABLE `categories` (
   `categoryId` varchar(100) NOT NULL,
   `categoryName` varchar(100) NOT NULL,
-  PRIMARY KEY (`categoryId`)
+  PRIMARY KEY (`categoryId`),
+  UNIQUE KEY `categoryName` (`categoryName`)
 );
 ```
 
