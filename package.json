@@ -29,6 +29,8 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-validator": "^7.2.1",
+    "html-entities": "^2.5.2",
     "mysql2": "^3.11.4",
     "uuid": "^11.0.3"
   }

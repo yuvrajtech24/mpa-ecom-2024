@@ -1,5 +1,13 @@
 <%- include("layouts/header") %>
         <main>
+            <% if(errors) { %>
+                <% for (error of errors) { %>
+                    <div class="error-message">
+                        <p><%= error.msg %></p>
+                        <!-- <p><a href="#">Close</a></p> -->
+                    </div>
+                <% } %>
+            <% } %>
             <h1>Welcome to Category Page!!</h1>
             <div class="card-cont">
                 <% if(categories.length === 0) { %>

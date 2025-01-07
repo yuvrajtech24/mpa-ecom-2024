@@ -13,18 +13,6 @@ app.set("views", path.join(__dirname, "views"));
 
 // Server Config
 (() => {
-    // dbConnection.connect((err) => {
-    //     if(err) {
-    //         console.log("Database connection failed", {
-    //             name: err.name,
-    //             code: err.code,
-    //             stack: err.stack
-    //         });
-    //         process.exit(1);
-    //     } else{
-    //         console.log("Database connection success");
-    //     }
-
         try{
             app.listen(
                 process.env.APPPORT, 
@@ -37,6 +25,7 @@ app.set("views", path.join(__dirname, "views"));
                 name: err.name,
                 message: err.message,
             });
+            process.exit(1);
         }
     })();
 

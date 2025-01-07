@@ -1,5 +1,13 @@
 <%- include("layouts/header") %>
 <main>
+    <% if(errors) { %>
+        <% for (error of errors) { %>
+            <div class="error-message">
+                <p><%= error.msg %></p>
+                <!-- <p><a href="#">Close</a></p> -->
+            </div>
+        <% } %>
+    <% } %>
     <h1>Welcome to Add Product Page !!!</h1>
     <form
     action="/product/add" 
