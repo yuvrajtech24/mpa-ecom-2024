@@ -10,9 +10,12 @@
         <% } %>
     <% } %>
     <h1>Welcome to Edit Category Page!!!</h1>
-    <form 
-    action="/category/update/<%=category.categoryId%>" method="POST"
+    <form
+    id = "editCategoryForm" 
+    action="#" 
+    method="POST"
     class="form-container"
+    data-category-id="<%= category.categoryId %>"
     >
     <div class="form-group">
         <label 
@@ -21,13 +24,54 @@
         <input 
         class="form-input"
         type="text" 
-        id="categoryName" 
+        id="categoryName"
         name="categoryName" 
-        value="<%= category.categoryName %>" 
+        value="<%= category.categoryName %>"
         required>
     </div>
         <button class="form-button" type="submit">Update</button>
     </form>
 </main>
+<script>
+    // Declarations
+    const editCategoryForm = document.querySelector("#editCategoryForm");
+    const categoryNameInput = document.querySelector("#categoryName");
+    
+    // Event Handlers
+    async function submitEditForm(event) {
+        event.preventDefault();
+        const categoryName = categoryNameInput.value;
+        const categoryId = editCategoryForm.getAttribute("data-category-id");
+
+        console.log("category Id = ", categoryId);
+        console.log("category name = ", categoryName);
+
+        try {
+            console.log("categoryId = ", categoryId);
+            let result = await fetch(`http://localhost:3000/category/${categoryId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    categoryName: categoryName
+                })
+            });
+            console.log("response result = ", result);
+            if(result.ok) {
+                return window.location = result.url;
+            }
+        } catch(err) {
+            console.log("error name = ", err.name);
+            console.log("error message = ", err.message);
+            console.log("error stack = ", err.stack);
+            return;
+        }
+    }
+
+    // Event Listeners
+    editCategoryForm.addEventListener("submit", submitEditForm);
+
+</script>
 </body>
 </html>

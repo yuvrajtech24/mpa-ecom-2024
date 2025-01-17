@@ -24,15 +24,55 @@
                                 <%= category.categoryId %>
                             </li>
                             <li class="card-item">
-                                <a href="/category/edit/<%=category.categoryId %>">Edit</a>
+                                <a 
+                                href="/category/edit/<%=category.categoryId %>"
+                                >Edit</a>
                             </li>
                             <li class="card-item">
-                                <a href="/category/delete/<%= category.categoryId%>">Delete</a>
+                                <a 
+                                id="deleteBtn" 
+                                href="#" 
+                                data-category-id="<%= category.categoryId %>"
+                                >Delete</a>
                             </li>
                         </ul>
                     </div>
                 <% } %>
             </div>
         </main>
+        <script>
+            // Declarations
+            const deleteBtnAll = document.querySelectorAll("#deleteBtn");
+            
+            // Event Handlers
+            async function handleDeleteBtn(event) {
+                const deleteBtn = event.target; 
+                const categoryId = deleteBtn.getAttribute("data-category-id");
+
+                console.log("category id = ", categoryId);
+
+                try {
+                    let response = await fetch(
+                        `http://localhost:3000/category/${categoryId}`, 
+                        {
+                            method: "DELETE",
+                    });
+                    console.log("delete response = ", response);
+                    if(response.ok) {
+                        return window.location = response.url;
+                    } 
+                } catch(err) {
+                    console.log("error name = ", err.name);
+                    console.log("error message = ", err.message);
+                    return;
+                }
+            }
+
+            // Event Listeners
+            deleteBtnAll.forEach(deleteBtn => {
+                deleteBtn.addEventListener("click", handleDeleteBtn);
+            })
+
+        </script>
     </body>
 </html>

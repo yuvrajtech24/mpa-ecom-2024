@@ -12,7 +12,7 @@
             <h1>Welcome to Product Page!!</h1>
             <form
             class="form-container"
-            action="/product/get" 
+            action="/product" 
             method="GET"
             style="
             display: flex; 
@@ -56,7 +56,7 @@
                         <h4>No Product available on this Page!!!</h4>
                         <br>
                         <h4>Go Back,
-                            <a href="/product/get">Product Page</a>
+                            <a href="/product">Product Page</a>
                         </h4>
                     </div>
                 <% } %>
@@ -84,12 +84,49 @@
                             </li>
                             <li class="card-item">
                                 <a 
-                                href="/product/delete/<%=product.productId %>">Delete</a>
+                                id="deleteBtn"
+                                href="#"
+                                data-product-id="<%= product.productId %>"
+                                >Delete</a>
                             </li>
                         </ul>
                     </div>
                 <% } %>
             </div>
         </main>
+        <script>
+            // Declarations
+            const deleteBtnAll = document.querySelectorAll("#deleteBtn");
+            
+            // Event Handlers
+            async function handleDeleteBtn(event) {
+                const deleteBtn = event.target; 
+                const productId = deleteBtn.getAttribute("data-product-id");
+
+                console.log("product id = ", productId);
+
+                try {
+                    let result = await fetch(
+                        `http://localhost:3000/product/${productId}`, 
+                        {
+                            method: "DELETE",
+                    });
+                    console.log("delete response = ", result);
+                    if(result.ok) {
+                        return window.location = result.url;
+                    } 
+                } catch(err) {
+                    console.log("error name = ", err.name);
+                    console.log("error message = ", err.message);
+                    return;
+                }
+            }
+
+            // Event Listeners
+            deleteBtnAll.forEach(deleteBtn => {
+                deleteBtn.addEventListener("click", handleDeleteBtn);
+            })
+
+        </script>
     </body>
 </html>

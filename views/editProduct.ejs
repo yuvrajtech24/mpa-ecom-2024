@@ -11,8 +11,11 @@
     <% } %>
     <h1>Welcome to Edit Product Page!!!</h1>
     <form 
-    action="/product/update/<%=product.productId%>" method="POST"
+    id="editProductForm"
+    action="#" 
+    method="POST"
     class="form-container"
+    data-product-id="<%= product.productId %>"
     >
         <div class="form-group" >
             <label 
@@ -30,8 +33,9 @@
         <div class="form-group">
             <label 
             class="form-label" 
-            for="categoryName">Category Name:</label>
-            <select 
+            for="categoryId">Category Name:</label>
+            <select
+            id="categoryId" 
             class="form-select" 
             name="categoryId" 
             required>
@@ -51,5 +55,52 @@
         <button type="submit">Update</button>
     </form>
 </main>
+<script>
+    // Declarations
+    const editProductForm = document.querySelector("#editProductForm");
+    const productNameInput = document.querySelector("#productName");
+    const categoryIdInput = document.querySelector("#categoryId");
+    
+    // Event Handlers
+    async function submitEditForm(event) {
+        event.preventDefault();
+        const productId = editProductForm.getAttribute("data-product-id");
+        const productName = productNameInput.getAttribute("value");
+        const categoryId = categoryIdInput.value;
+
+        console.log("product id = ", productId);
+        console.log("product Name = ", productName);
+        console.log("category id = ", categoryId);
+
+        try {
+            let result = await fetch(
+                `http://localhost:3000/product/${productId}`, 
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        productName: productName,
+                        categoryId: categoryId 
+                    })
+                })
+
+            console.log("response result = ", result);
+            if(result.ok) {
+                return window.location = result.url;
+            }
+        } catch(err) {
+            console.log("error name = ", err.name);
+            console.log("error message = ", err.message);
+            console.log("error stack = ", err.stack);
+            return;
+        }
+    }
+
+    // Event Listeners
+    editProductForm.addEventListener("submit", submitEditForm);
+
+</script>
 </body>
 </html>
