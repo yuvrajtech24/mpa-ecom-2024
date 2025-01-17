@@ -65,7 +65,7 @@
     async function submitEditForm(event) {
         event.preventDefault();
         const productId = editProductForm.getAttribute("data-product-id");
-        const productName = productNameInput.getAttribute("value");
+        const productName = productNameInput.value;
         const categoryId = categoryIdInput.value;
 
         console.log("product id = ", productId);

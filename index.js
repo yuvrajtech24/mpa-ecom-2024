@@ -61,23 +61,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, PATCH"); // Allow specific methods (include PUT here)
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, PATCH"); // Allow specific methods
     res.header(
         "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization" // Include Authorization header if needed
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization" // Authorization header
         );
     next();
 });
-app.use((req, res, next) => {
-    console.log("request url = ", req.url);
-    console.log("request host = ", req.host);
-    console.log("request path = ", req.path);
-    console.log("request path parameter = ", req.params);
-    console.log("request query parameter = ", req.query);
-    console.log("request method = ", req.method);
-    console.log("request body = ", req.body);
-    next();
-})
 
 // Endpoints
 app.get("/", (req, res, next) => {
